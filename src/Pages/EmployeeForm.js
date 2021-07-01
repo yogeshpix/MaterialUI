@@ -1,6 +1,13 @@
-import { RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
-import { Grid, TextField, FormControl, FormLabel } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { useForm, Form } from '../Components/useForm';
+import Controls from '../Components/Controls/Controls';
+import * as employeeService from '../service/employeeService';
+
+const genderItems = [
+  { id: 'male', title: 'Male' },
+  { id: 'female', title: 'Female' },
+  { id: 'other', title: 'Other' },
+];
 
 const initialFieldValues = {
   id: 0,
@@ -20,15 +27,13 @@ function EmployeeForm() {
     <Form>
       <Grid container>
         <Grid item xs={6}>
-          <TextField
-            variant='outlined'
-            label='Full Name'
+          <Controls.Input
             name='fullName'
+            label='Full Name'
             value={values.fullName}
-            onChange={handleInputChange}
+            onchange={handleInputChange}
           />
-          <TextField
-            variant='outlined'
+          <Controls.Input
             label='Email'
             name='email'
             value={values.email}
@@ -36,12 +41,26 @@ function EmployeeForm() {
           />
         </Grid>
         <Grid item xs={6}>
-          <FormControl>
-            <FormLabel>Gender</FormLabel>
-            <RadioGroup>
-              <FormControlLabel value='male' control={<Radio />} label='Male' />
-            </RadioGroup>
-          </FormControl>
+          <Controls.RadioGroup
+            name='gender'
+            label='Gender'
+            value={values.gender}
+            onChange={handleInputChange}
+            items={genderItems}
+          />
+          <Controls.Select
+            name='departmentId'
+            label='Department'
+            value={values.departmentId}
+            onChange={handleInputChange}
+            options={employeeService.getDepartmentCollection()}
+          />
+          <Controls.Checkbox
+            name='isPermanent'
+            label='Permanent Employee'
+            value={values.isPermanent}
+            onChange={handleInputChange}
+          />
         </Grid>
       </Grid>
     </Form>
